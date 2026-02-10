@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.InputMismatchException;
 
 public class Usuario {
 
@@ -14,11 +13,31 @@ public class Usuario {
 
 
 
-  public Usuario(String nombre, String email, String numeroSocio, LocalDate fechaRegistro) {
-    this.nombre = nombre;
-    this.email = email;
-    this.numeroSocio = numeroSocio;
-    this.fechaRegistro = fechaRegistro;
+  public Usuario(String nombre, String email, String numeroSocio, LocalDate fechaRegistro)
+    throws UsuarioInvalidoException {
+
+      if (nombre == null || nombre.trim().isEmpty()) {
+        throw new UsuarioInvalidoException("El nombre no puede estar vacío.");
+      }
+
+      if (email == null || !email.contains("@") || !email.contains(".")) {
+        throw new UsuarioInvalidoException("El email debe contener '@' y '.'.");
+      }
+
+      if (numeroSocio == null || !numeroSocio.matches("^SOC\\d{5}$")) {
+        throw new UsuarioInvalidoException("El formato del número de socio debe ser 'SOC' seguido de 5 dígitos.");
+      }
+
+      if (fechaRegistro == null) {
+        throw new UsuarioInvalidoException("La fecha de registro no puede ser nula.");
+      }
+
+      this.nombre = nombre;
+      this.email = email;
+      this.numeroSocio = numeroSocio;
+      this.fechaRegistro = fechaRegistro;
+      this.sancionado = false; // Por defecto no está sancionado [cite: 33]
+      this.fechaFinSancion = null;
   }
 
 
@@ -41,23 +60,8 @@ public class Usuario {
   @Override
   public String toString() {
     return "Usuario{" +
-      "nombre='" + nombre + '\'' +
-      ", email='" + email + '\'' +
-      ", numeroSocio='" + numeroSocio + '\'' +
-      ", fechaRegistro=" + fechaRegistro +
-      ", sancionado=" + sancionado +
-      ", fechaFinSancion=" + (fechaFinSancion != null ? fechaFinSancion : "N/A") +
-      '}';
+      "nombre='" + nombre + '\'' + ", email='" + email + '\'' + ", numeroSocio='" + numeroSocio + '\'' + ", fechaRegistro=" + fechaRegistro + '}';
   }
-
-  public String getNumeroSocio() {
-    return numeroSocio;
-  }
-
-  public LocalDate getFechaFinSancion() {
-    return fechaFinSancion;
-  }
-
 
 
 

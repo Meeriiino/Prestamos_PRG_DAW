@@ -54,10 +54,11 @@ public class Main {
     }while(cont!=8);
     entrada.close();
 
-  }
-
-    Usuario u1 = new Usuario("Sergio","sergio332@gmail.com","SOC12345", LocalDate.of(2026,02,8));
-
+    //Usuario u1 = new Usuario("Sergio","sergio332@gmail.com","SOC12345", LocalDate.of(2026,02,8));
 
   }
-}
+
+
+
+  }
+
