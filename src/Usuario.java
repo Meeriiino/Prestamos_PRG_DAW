@@ -9,11 +9,14 @@ public class Usuario {
   private boolean sancionado;
   private LocalDate fechaFinSancion;
 
-  public Usuario(String nombre, String email, String numeroSocio, LocalDate fechaRegistro) {
-    this.nombre = nombre;
-    this.email = email;
-    this.numeroSocio = numeroSocio;
-    this.fechaRegistro = fechaRegistro;
+
+  try{
+      public Usuario(String nombre, String email, String numeroSocio, LocalDate fechaRegistro) {
+        this.nombre = nombre;
+        this.email = email;
+        this.numeroSocio = numeroSocio;
+        this.fechaRegistro = fechaRegistro;
+  }
   }
 
   public void sancionar(){
