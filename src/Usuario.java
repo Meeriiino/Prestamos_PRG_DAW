@@ -36,8 +36,8 @@ public class Usuario {
       throw new UsuarioInvalidoException("El formato del número de socio debe ser 'SOC' seguido de 5 dígitos. Ejemplo: SOC12345");
     }
 
-      if (fechaRegistro == null) {
-        throw new UsuarioInvalidoException("La fecha de registro no puede ser nula.");
+      if (fechaRegistro == null || fechaRegistro.isAfter(LocalDate.now())) {
+        throw new UsuarioInvalidoException("La fecha de registro no es válida.");
       }
 
       this.nombre = nombre;
@@ -67,13 +67,19 @@ public class Usuario {
 
   @Override
   public String toString() {
-    return "Usuario{" +
-      "nombre='" + nombre + '\''
-      + ", email='" + email + '\''
-      + ", numeroSocio='" + numeroSocio + '\''
-      + ", fechaRegistro=" + fechaRegistro + '}';
+    return "---Usuario---" +"\n"
+      + "Nombre: " + this.nombre + "\n"
+      + "Email: " + this.email + "\n"
+      + "NumeroSocio: " + this.numeroSocio + "\n"
+      + "Fecha de Registro: " + this.fechaRegistro;
   }
 
+  public String getNumeroSocio() {
+    return numeroSocio;
+  }
 
+  public LocalDate getFechaFinSancion() {
+    return fechaFinSancion;
+  }
 
 }
