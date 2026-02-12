@@ -20,13 +20,21 @@ public class Usuario {
         throw new UsuarioInvalidoException("El nombre no puede estar vacío.");
       }
 
-      if (email == null || !email.contains("@") || !email.contains(".")) {
-        throw new UsuarioInvalidoException("El email debe contener '@' y '.'.");
+      if (email == null || email.trim().isEmpty()) {
+        throw new UsuarioInvalidoException("El email no puede estar vacío.");
       }
 
-      if (numeroSocio == null || !numeroSocio.matches("^SOC\\d{5}$")) {
-        throw new UsuarioInvalidoException("El formato del número de socio debe ser 'SOC' seguido de 5 dígitos.");
+    if (!email.contains("@") || !email.contains(".")) {
+      throw new UsuarioInvalidoException("El email debe contener '@' y '.' Ejemplo: usuario@gmail.com");
+    }
+
+    if (numeroSocio == null || numeroSocio.trim().isEmpty()) {
+        throw new UsuarioInvalidoException("El número de socio no puede estar vacío.");
       }
+
+    if (!numeroSocio.matches("^SOC\\d{5}$")) {
+      throw new UsuarioInvalidoException("El formato del número de socio debe ser 'SOC' seguido de 5 dígitos. Ejemplo: SOC12345");
+    }
 
       if (fechaRegistro == null) {
         throw new UsuarioInvalidoException("La fecha de registro no puede ser nula.");
@@ -36,7 +44,7 @@ public class Usuario {
       this.email = email;
       this.numeroSocio = numeroSocio;
       this.fechaRegistro = fechaRegistro;
-      this.sancionado = false; // Por defecto no está sancionado [cite: 33]
+      this.sancionado = false;
       this.fechaFinSancion = null;
   }
 
@@ -60,7 +68,10 @@ public class Usuario {
   @Override
   public String toString() {
     return "Usuario{" +
-      "nombre='" + nombre + '\'' + ", email='" + email + '\'' + ", numeroSocio='" + numeroSocio + '\'' + ", fechaRegistro=" + fechaRegistro + '}';
+      "nombre='" + nombre + '\''
+      + ", email='" + email + '\''
+      + ", numeroSocio='" + numeroSocio + '\''
+      + ", fechaRegistro=" + fechaRegistro + '}';
   }
 
 
