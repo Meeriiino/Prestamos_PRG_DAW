@@ -44,7 +44,7 @@ public class GestorBiblioteca {
   }
 
 
-  public Prestamo realizarPrestamo(String codigoLibro, String titulo, LocalDate fecha, Usuario usuario)
+  public Prestamo realizarPrestamo(String codigoLibro, String titulo, LocalDate fechaPrestamo, Usuario usuario)
     throws PrestamoInvalidoException, UsuarioSancionadoException, LibroNoDisponibleException {
 
     if (usuario.estaSancionado()) {
@@ -64,23 +64,87 @@ public class GestorBiblioteca {
     }
 
 
-    Prestamo nuevoPrestamo = new Prestamo(codigoLibro, usuario , titulo, fecha);
+    Prestamo nuevoPrestamo = new Prestamo(codigoLibro, titulo, usuario, fechaPrestamo);
+
     if (numeroPrestamos < MAX_PRESTAMOS) {
 
       prestamos[numeroPrestamos] = nuevoPrestamo;
       numeroPrestamos++;
 
       return nuevoPrestamo;
+
+  } else {
+
+      throw new PrestamoInvalidoException("No se pueden realizar más préstamos");
+
+    }
+
+  }
+
+
+  public boolean devolverLibro(String codigoLibro, LocalDate fechaDevolucion)
+    throws PrestamoInvalidoException {
+
+      for (int i = 0; i < numeroPrestamos; i++) {
+
+        if (prestamos[i].getCodigoLibro().equals(codigoLibro) && prestamos[i].getFechaDevolucionReal() == null) {
+
+          prestamos[i].registrarDevolucion(fechaDevolucion);
+
+
+          int diasRetraso = prestamos[i].calcularDiasRetraso();
+
+          if (diasRetraso > 0) {
+
+            prestamos[i].getSocio().sancionar(diasRetraso, fechaDevolucion);
+
+          }
+
+          return true;
+
+        }
+      }
+
+      return false;
+
+  }
+
+
+  public Usuario buscarUsuario(String numeroSocio) {
+
+    for (int i = 0; i < numeroUsuarios; i++) {
+
+      if (usuarios[i].getNumeroSocio().equalsIgnoreCase(numeroSocio)) {
+
+        return usuarios[i];
+
+      }
     }
 
     return null;
-
   }
 
 
-
+  public Prestamo[] getPrestamos() {
+    return prestamos;
   }
 
+  public Usuario[] getUsuarios() {
+    return usuarios;
+  }
+
+  public int getNumeroUsuarios() {
+    return numeroUsuarios;
+  }
+
+  public int getNumeroPrestamos() {
+    return numeroPrestamos;
+  }
+
+  @Override
+  public String toString() {
+    return "Existen " + numeroUsuarios + " usuarios registrados y " + numeroPrestamos + " préstamos realizados.";
+  }
 
 
 }

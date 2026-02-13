@@ -36,6 +36,7 @@ public class Prestamo {
 
   }
 
+
   public void registrarDevolucion(LocalDate fecha)
     throws PrestamoInvalidoException {
 
