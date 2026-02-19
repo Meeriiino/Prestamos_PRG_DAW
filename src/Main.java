@@ -29,13 +29,13 @@ public class Main {
           case 5 -> mostrarPrestamosActivos();
           case 6 -> mostrarUsuariosSancionados();
           case 7 -> actualizarSanciones();
-          case 8 -> System.out.println("Saliendo del sistema...");
-          default -> System.out.println("Opción no válida.");
+          case 8 -> System.out.println("Saliendo del sistema.");
+          default -> System.out.println("Opción no válida, vuelva a seleccionar una opción");
         }
 
       } catch (NumberFormatException e) {
 
-        System.out.println("ERROR: Introduce un número para la opción.");
+        System.out.println("ERROR: Introduce un número para elegir la opción.");
       }
 
     } while (opcion != 8);
@@ -60,6 +60,37 @@ public class Main {
 
   private static void registrarUsuario() {
 
+    try{
+
+      System.out.println("Introduce el nombre del nuevo usuario: ");
+      String nombre = entrada.nextLine();
+
+      System.out.println("Introduce el e-mail del nuevo ususario (usuario@gmail.com): ");
+      String email = entrada.nextLine();
+
+      System.out.println("Introduce el número de socio (SOC12345): ");
+      String numeroSocio = entrada.nextLine();
+
+      System.out.println("Introduce la fecha de registro (dd/mm/aaaa): ");
+      LocalDate fecha = LocalDate.parse(entrada.nextLine(), formato);
+
+      Usuario nuevo = new Usuario(nombre, email, numeroSocio, fecha);
+      gestor.registrarUsuario(nuevo);
+
+
+      System.out.println("Usuario correctamente registrado.");
+
+
+    } catch (UsuarioInvalidoException | UsuarioRepetidoException e) {
+
+      System.out.println("ERROR: " + e.getMessage());
+
+    } catch (DateTimeParseException e) {
+
+      System.out.println("ERROR: Fecha no válida, prueba con el formato (dd/mm/aaaa)");
+
+    }
+
   }
 
 
@@ -67,16 +98,20 @@ public class Main {
 
     try{
 
-      System.out.println("Introduce el código del libro (AAA0000): ");
+      System.out.println("Introduce el código del libro (AAA1234): ");
       String codigo = entrada.nextLine();
 
       System.out.println("Introduce el título del libro: ");
       String titulo = entrada.nextLine();
 
-      System.out.println("Introduce el número de socio (SOC00000): ");
-      String socio = entrada.nextLine();
+      System.out.println("Introduce el número de socio (SOC12345): ");
+      String numeroSocio = entrada.nextLine();
 
-      Usuario u = gestor.buscarUsuario(socio);
+      System.out.println("Introduce la fecha de préstamo (dd/mm/aaaa): ");
+      LocalDate fecha = LocalDate.parse(entrada.nextLine(), formato);
+
+
+      Usuario u = gestor.buscarUsuario(numeroSocio);
 
       if (u == null) {
 
@@ -85,8 +120,6 @@ public class Main {
 
       }
 
-      System.out.print("Fecha de préstamo (dd/mm/aaaa): ");
-      LocalDate fecha = LocalDate.parse(entrada.nextLine(), formato);
 
       Prestamo p = gestor.realizarPrestamo(codigo, titulo, fecha, u);
 
@@ -100,7 +133,7 @@ public class Main {
 
     } catch (DateTimeParseException e) {
 
-      System.out.println("ERROR: Fecha no válida.");
+      System.out.println("ERROR: Fecha no válida, prueba con el formato (dd/mm/aaaa)");
 
     }
 
@@ -109,10 +142,53 @@ public class Main {
 
   private static void devolverLibro() {
 
+    try{
+
+      System.out.println("Introduce el código del libro (AAA1234): ");
+      String codigo = entrada.nextLine();
+
+      System.out.println("Introduce la fecha de devolucion (dd/mm/aaaa): ");
+      LocalDate fecha = LocalDate.parse(entrada.nextLine(), formato);
+
+
+      if (gestor.devolverLibro(codigo,fecha)) {
+
+        System.out.println("Devolución registrada correctamente.");
+
+      }else {
+        System.out.println("No se ha podido realizar la devolución, no se encontró un prestamo pendiente con ese código.");
+      }
+
+
+    } catch (PrestamoInvalidoException e) {
+
+      System.out.println("ERROR: " + e.getMessage());
+
+    } catch (DateTimeParseException e) {
+
+      System.out.println("ERROR: Fecha no válida, prueba con el formato (dd/mm/aaaa)");
+
+    }
+
   }
 
 
   private static void consultarEstadoUsuario() {
+
+    System.out.println("Introduce el número de socio (SOC12345): ");
+    String numeroSocio = entrada.nextLine();
+
+    Usuario u = gestor.buscarUsuario(numeroSocio);
+
+if (u != null){
+
+  System.out.println(u.toString());
+
+}else{
+
+  System.out.println("El usuario "+numeroSocio+" no se ha encontrado");
+
+}
 
   }
 
