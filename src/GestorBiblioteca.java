@@ -141,6 +141,7 @@ public class GestorBiblioteca {
     return numeroPrestamos;
   }
 
+
   @Override
   public String toString() {
     return "Existen " + numeroUsuarios + " usuarios registrados y " + numeroPrestamos + " préstamos realizados.";

@@ -12,7 +12,7 @@ public class Prestamo {
 
 
 
-  public Prestamo(String codigoLibro,String tituloLibro, Usuario socio, LocalDate fechaPrestamo)
+  public Prestamo(String codigoLibro, String tituloLibro, Usuario socio, LocalDate fechaPrestamo)
     throws PrestamoInvalidoException{
 
     if (codigoLibro == null || !codigoLibro.matches("^[A-Z]{3}\\d{4}$")) {
