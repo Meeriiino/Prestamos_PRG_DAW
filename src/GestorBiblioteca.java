@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class GestorBiblioteca {
 
@@ -9,6 +10,7 @@ public class GestorBiblioteca {
   private int numeroUsuarios;
   private int numeroPrestamos;
 
+  private static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
   public GestorBiblioteca() {
     this.usuarios = new Usuario[MAX_USUARIOS];
@@ -100,7 +102,7 @@ public class GestorBiblioteca {
 
             System.out.println();
             System.out.println("Devolución registrada con " + diasRetraso + " días de retraso");
-            System.out.println("Usuario sancionado por " + diasRetraso + " días de retraso (hasta el " + fechaDevolucion.plusDays(diasRetraso) + ")");
+            System.out.println("Usuario sancionado por " + diasRetraso + " días de retraso (hasta el " + fechaDevolucion.plusDays(diasRetraso).format(formato) + ")");
 
           }
 

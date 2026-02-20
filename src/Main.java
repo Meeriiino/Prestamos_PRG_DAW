@@ -29,18 +29,19 @@ public class Main {
           case 5 -> mostrarPrestamosActivos();
           case 6 -> mostrarUsuariosSancionados();
           case 7 -> actualizarSanciones();
-          case 8 -> System.out.println("Saliendo del sistema.");
-          default -> System.out.println("Opción no válida, vuelva a seleccionar una opción");
+          case 8 -> System.out.println("\n" + "Saliendo del sistema.");
+          default -> System.out.println("\n" + "Opción no válida, vuelva a seleccionar una opción");
         }
 
       } catch (NumberFormatException e) {
 
-        System.out.println("ERROR: Introduce un número para elegir la opción.");
+        System.out.println("\n" + "ERROR: Introduce un número para elegir la opción.");
       }
 
     } while (opcion != 8);
 
     }
+
 
   private static void mostrarMenu() {
 
@@ -57,6 +58,7 @@ public class Main {
     System.out.println();
     System.out.print("Escribe tu opción: ");
   }
+
 
 
   private static void registrarUsuario() {
@@ -98,6 +100,7 @@ public class Main {
   }
 
 
+
   private static void realizarPrestamo() {
 
     try{
@@ -125,12 +128,10 @@ public class Main {
 
       }
 
-
       Prestamo p = gestor.realizarPrestamo(codigo, titulo, fecha, u);
 
       System.out.println();
-      System.out.println("Préstamo realizado.");
-      System.out.println("Devolución prevista: " + p.getFechaDevolucionPrevista().format(formato));
+      System.out.println(p.toString());
 
     } catch (PrestamoInvalidoException | UsuarioSancionadoException | LibroNoDisponibleException e) {
 
@@ -145,6 +146,7 @@ public class Main {
     }
 
   }
+
 
 
   private static void devolverLibro() {
@@ -184,6 +186,7 @@ public class Main {
   }
 
 
+
   private static void consultarEstadoUsuario() {
 
     System.out.println("Introduce el número de socio (SOC12345): ");
@@ -196,6 +199,16 @@ if (u != null){
   System.out.println();
   System.out.println(u.toString());
 
+  if (u.estaSancionado()){
+
+    System.out.println("Estado: Sancionado");
+
+  }else {
+
+    System.out.println("Estado: Activo");
+
+  }
+
 }else{
 
   System.out.println();
@@ -204,6 +217,7 @@ if (u != null){
 }
 
   }
+
 
 
   private static void mostrarPrestamosActivos() {
@@ -234,6 +248,7 @@ if (u != null){
   }
 
 
+
   private static void mostrarUsuariosSancionados() {
 
     Usuario[] usuariosActivos = gestor.getUsuarios();
@@ -245,6 +260,7 @@ if (u != null){
       if (usuariosActivos[i].estaSancionado()){
 
         System.out.println(usuariosActivos[i].toString());
+
         hayUsuarios = true;
 
       }
@@ -261,12 +277,38 @@ if (u != null){
   }
 
 
+
   private static void actualizarSanciones() {
+
+    int contador = 0;
+    LocalDate hoy = LocalDate.now();
+
+    Usuario[] lista = gestor.getUsuarios();
+
+    for (int i = 0; i < gestor.getNumeroUsuarios(); i++) {
+
+      if (lista[i].estaSancionado() && lista[i].getFechaFinSancion() != null) {
+
+        if (lista[i].getFechaFinSancion().isBefore(hoy)) {
+
+          lista[i].levantarSancion();
+          contador++;
+
+        }
+
+      }
+
+    }
+
+    System.out.println();
+    System.out.println("Sanciones actualizadas. Se han levantado " + contador + " sanciones.");
 
   }
 
 
-}
+
+  }
+
 
 
 

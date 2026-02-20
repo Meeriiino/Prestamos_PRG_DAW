@@ -71,7 +71,7 @@ public class Usuario {
     return "\n" + "---Usuario---" + "\n"
       + "Nombre: " + this.nombre + "\n"
       + "Email: " + this.email + "\n"
-      + "NumeroSocio: " + this.numeroSocio + "\n"
+      + "Numero de Socio: " + this.numeroSocio + "\n"
       + "Fecha de Registro: " + this.fechaRegistro.format(formato);
   }
 

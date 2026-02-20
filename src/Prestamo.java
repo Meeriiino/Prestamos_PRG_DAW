@@ -88,25 +88,17 @@ public class Prestamo {
   @Override
   public String toString() {
 
-    if(fechaDevolucionReal== null){
       return "\n" + "---Préstamo--- "+ "\n"
         +"Título: " + tituloLibro + "\n"
         + "Código del libro: " + codigoLibro + "\n"
         +"Número de socio: " + socio.getNumeroSocio() + "\n"
-        +"Fecha del préstamo: " + fechaPrestamo + "\n"
+        +"Fecha del préstamo: " + fechaPrestamo + "\n" + "\n"
         +"Prestamo Realizado." + "\n"
         +"Devolución prevista: " + fechaDevolucionPrevista.format(formato);
 
-    } else {
-
-      return "---Préstamo--- " + "\n"
-        + "Título: " + tituloLibro + "\n"
-        + "Código del libro: " + codigoLibro + "\n"
-        + "Número de socio: " + socio.getNumeroSocio() + "\n"
-        + "ERROR: Libro no disponible. Ya está prestado";
-
     }
-  }
+
+
 
 
 
