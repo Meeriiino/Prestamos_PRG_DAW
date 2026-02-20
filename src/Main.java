@@ -44,6 +44,7 @@ public class Main {
 
   private static void mostrarMenu() {
 
+    System.out.println();
     System.out.println("=== SISTEMA GESTIÓN BIBLIOTECA ===");
     System.out.println("1. Registrar nuevo usuario");
     System.out.println("2. Realizar préstamo de libro");
@@ -77,16 +78,19 @@ public class Main {
       Usuario nuevo = new Usuario(nombre, email, numeroSocio, fecha);
       gestor.registrarUsuario(nuevo);
 
-
+      System.out.println(nuevo.toString());
+      System.out.println();
       System.out.println("Usuario correctamente registrado.");
 
 
     } catch (UsuarioInvalidoException | UsuarioRepetidoException e) {
 
+      System.out.println();
       System.out.println("ERROR: " + e.getMessage());
 
     } catch (DateTimeParseException e) {
 
+      System.out.println();
       System.out.println("ERROR: Fecha no válida, prueba con el formato (dd/mm/aaaa)");
 
     }
@@ -115,6 +119,7 @@ public class Main {
 
       if (u == null) {
 
+        System.out.println();
         System.out.println("ERROR: El usuario no existe.");
         return;
 
@@ -123,16 +128,18 @@ public class Main {
 
       Prestamo p = gestor.realizarPrestamo(codigo, titulo, fecha, u);
 
+      System.out.println();
       System.out.println("Préstamo realizado.");
-
       System.out.println("Devolución prevista: " + p.getFechaDevolucionPrevista().format(formato));
 
     } catch (PrestamoInvalidoException | UsuarioSancionadoException | LibroNoDisponibleException e) {
 
+      System.out.println();
       System.out.println("ERROR: " + e.getMessage());
 
     } catch (DateTimeParseException e) {
 
+      System.out.println();
       System.out.println("ERROR: Fecha no válida, prueba con el formato (dd/mm/aaaa)");
 
     }
@@ -153,19 +160,23 @@ public class Main {
 
       if (gestor.devolverLibro(codigo,fecha)) {
 
+        System.out.println();
         System.out.println("Devolución registrada correctamente.");
 
       }else {
+        System.out.println();
         System.out.println("No se ha podido realizar la devolución, no se encontró un prestamo pendiente con ese código.");
       }
 
 
     } catch (PrestamoInvalidoException e) {
 
+      System.out.println();
       System.out.println("ERROR: " + e.getMessage());
 
     } catch (DateTimeParseException e) {
 
+      System.out.println();
       System.out.println("ERROR: Fecha no válida, prueba con el formato (dd/mm/aaaa)");
 
     }
@@ -182,10 +193,12 @@ public class Main {
 
 if (u != null){
 
+  System.out.println();
   System.out.println(u.toString());
 
 }else{
 
+  System.out.println();
   System.out.println("El usuario "+numeroSocio+" no se ha encontrado");
 
 }
@@ -195,10 +208,55 @@ if (u != null){
 
   private static void mostrarPrestamosActivos() {
 
+    Prestamo[] prestamosActivos = gestor.getPrestamos();
+
+    boolean hayPrestamos = false;
+
+    for (int i = 0; i < gestor.getNumeroPrestamos(); i++) {
+
+      if (prestamosActivos[i].getFechaDevolucionReal() == null){
+
+        System.out.println();
+        System.out.println(prestamosActivos[i].toString());
+        hayPrestamos = true;
+
+      }
+
+    }
+
+    if (!hayPrestamos){
+
+      System.out.println();
+      System.out.println("No hay préstamos activos");
+
+    }
+
   }
 
 
   private static void mostrarUsuariosSancionados() {
+
+    Usuario[] usuariosActivos = gestor.getUsuarios();
+
+    boolean hayUsuarios = false;
+
+    for (int i = 0; i < gestor.getNumeroPrestamos(); i++) {
+
+      if (usuariosActivos[i].estaSancionado()){
+
+        System.out.println(usuariosActivos[i].toString());
+        hayUsuarios = true;
+
+      }
+
+    }
+
+    if (!hayUsuarios){
+
+      System.out.println();
+      System.out.println("No hay usuarios registrados");
+
+    }
 
   }
 

@@ -98,6 +98,10 @@ public class GestorBiblioteca {
 
             prestamos[i].getSocio().sancionar(diasRetraso, fechaDevolucion);
 
+            System.out.println();
+            System.out.println("Devolución registrada con " + diasRetraso + " días de retraso");
+            System.out.println("Usuario sancionado por " + diasRetraso + " días de retraso (hasta el " + fechaDevolucion.plusDays(diasRetraso) + ")");
+
           }
 
           return true;

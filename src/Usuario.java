@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Usuario {
 
@@ -9,7 +10,7 @@ public class Usuario {
   private boolean sancionado;
   private LocalDate fechaFinSancion;
 
-
+  private static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
 
@@ -67,11 +68,11 @@ public class Usuario {
 
   @Override
   public String toString() {
-    return "---Usuario---" +"\n"
+    return "\n" + "---Usuario---" + "\n"
       + "Nombre: " + this.nombre + "\n"
       + "Email: " + this.email + "\n"
       + "NumeroSocio: " + this.numeroSocio + "\n"
-      + "Fecha de Registro: " + this.fechaRegistro;
+      + "Fecha de Registro: " + this.fechaRegistro.format(formato);
   }
 
   public String getNumeroSocio() {

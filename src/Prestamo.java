@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Prestamo {
@@ -10,6 +11,7 @@ public class Prestamo {
   private LocalDate fechaDevolucionPrevista;
   private LocalDate fechaDevolucionReal;
 
+  private static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
   public Prestamo(String codigoLibro, String tituloLibro, Usuario socio, LocalDate fechaPrestamo)
@@ -87,13 +89,13 @@ public class Prestamo {
   public String toString() {
 
     if(fechaDevolucionReal== null){
-      return "---Préstamo--- "+ "\n"
+      return "\n" + "---Préstamo--- "+ "\n"
         +"Título: " + tituloLibro + "\n"
         + "Código del libro: " + codigoLibro + "\n"
         +"Número de socio: " + socio.getNumeroSocio() + "\n"
         +"Fecha del préstamo: " + fechaPrestamo + "\n"
         +"Prestamo Realizado." + "\n"
-        +"Devolución prevista: " + fechaDevolucionPrevista;
+        +"Devolución prevista: " + fechaDevolucionPrevista.format(formato);
 
     } else {
 
